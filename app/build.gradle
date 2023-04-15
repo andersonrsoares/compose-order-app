@@ -66,7 +66,7 @@ dependencies {
 
     //Koin
     implementation "io.insert-koin:koin-android:3.4.0"
-    //implementation "io.insert-koin:koin-android-viewmodel:3.4.0"
+    implementation "io.insert-koin:koin-androidx-compose:3.4.3"
 
     //retrofit
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"

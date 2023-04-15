@@ -27,16 +27,12 @@ fun Throwable.handleException(): RemoteDataSourceError {
         is TimeoutCancellationException,
         is IOException -> RemoteDataSourceError.NetworkError(this)
         is JSONException -> RemoteDataSourceError.ParseError(this)
-        else -> RemoteDataSourceError.UnknownError(this)
+        else -> RemoteDataSourceError.ServerError(this)
     }
 }
 
 fun <T> Response<T>.handleServerError() : RemoteDataSourceError {
-    return when(this.code()){
-        401 -> RemoteDataSourceError.Unauthorized(Throwable("Unauthorized code error ${this.code()}"))
-        404 -> RemoteDataSourceError.NotFound(Throwable("RemoteDataSourceError code error ${this.code()}"))
-        else -> RemoteDataSourceError.UnknownError(Throwable("UnknownError code error ${this.code()}"))
-    }
+    return RemoteDataSourceError.ServerError(Throwable("UnknownError error code: ${this.code()} error body: ${this.errorBody()?.string()}"))
 }
 
 suspend fun <T> safeApiCall(

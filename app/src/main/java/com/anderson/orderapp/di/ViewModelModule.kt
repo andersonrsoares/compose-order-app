@@ -1,9 +1,12 @@
 package com.anderson.orderapp.di
 
-//import com.hb.rickandmortyapollo.presentation.characters.CharactersViewModel
-//import org.koin.android.viewmodel.dsl.viewModel
-//import org.koin.dsl.module
-//
-//val ViewModelModule = module {
-//    viewModel { CharactersViewModel(get()) }
-//}
+import com.anderson.orderapp.presentation.navigation.NavigationViewModel
+import com.anderson.orderapp.presentation.order_pizza.OrderPizzaViewModel
+import org.koin.dsl.module
+import org.koin.androidx.viewmodel.dsl.viewModel
+
+
+val ViewModelModule = module {
+    viewModel { NavigationViewModel() }
+    viewModel { OrderPizzaViewModel(get()) }
+}

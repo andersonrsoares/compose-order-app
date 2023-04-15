@@ -25,13 +25,14 @@ class PizzaRepositoryImpl(
                     DataState.Success(result.data.map { it.toPizza() })
                 }
 
-                is RemoteDataSourceResult.Error -> DataState.Failure(when(result.error) {
-                    is RemoteDataSourceError.NotFound,
-                    is RemoteDataSourceError.Unauthorized -> FailureReason.ServerError(result.error)
-                    is RemoteDataSourceError.NetworkError,
-                    is RemoteDataSourceError.ParseError -> FailureReason.NetworkIssue
-                    else -> FailureReason.GenericError
-                })
+                is RemoteDataSourceResult.Error -> {
+                    result.error.exception?.printStackTrace()
+                    DataState.Failure(when(result.error) {
+                        is RemoteDataSourceError.ServerError -> FailureReason.ServerError(result.error)
+                        is RemoteDataSourceError.NetworkError,
+                        is RemoteDataSourceError.ParseError -> FailureReason.NetworkIssue
+                    })
+                }
             })
         }.flowOn(dispatcherProvider.io)
     }

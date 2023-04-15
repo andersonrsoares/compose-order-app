@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">order-app</string>
+    <string name="empty_pizzas_list">There is not available pizzas to order, please try later.</string>
+    <string name="error_network_issue">Please check your internet connection and try again.</string>
+    <string name="error_unknown">An unknown error happened, please try again.</string>
+    <string name="error_server">An server error happened, please try again.</string>
 </resources>
