@@ -1,4 +1,4 @@
-package com.anderson.orderapp.data.remote
+package com.anderson.orderapp.data.remote.dto
 
 
 data class PizzaDto(

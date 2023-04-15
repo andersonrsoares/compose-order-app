@@ -1,6 +1,9 @@
 package com.anderson.orderapp
 
 import android.app.Application
+import com.anderson.orderapp.di.AppModule
+import com.anderson.orderapp.di.DataModule
+import com.anderson.orderapp.di.NetworkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,7 +18,7 @@ class BaseApp : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@BaseApp)
-            //modules(listOf(RepositoryModule, StorageModule, ViewModelModule))
+            modules(listOf(AppModule, NetworkModule, DataModule))
         }
     }
 }

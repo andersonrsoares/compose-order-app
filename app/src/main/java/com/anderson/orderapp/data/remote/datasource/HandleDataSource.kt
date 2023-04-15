@@ -1,7 +1,10 @@
 package com.anderson.orderapp.data.remote.datasource
 
 
+import com.anderson.orderapp.data.remote.result.RemoteDataSourceError
+import com.anderson.orderapp.data.remote.result.RemoteDataSourceResult
 import kotlinx.coroutines.TimeoutCancellationException
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException
@@ -22,25 +25,17 @@ fun Throwable.handleException(): RemoteDataSourceError {
         is UnknownHostException,
         is TimeoutException,
         is TimeoutCancellationException,
-        is IOException -> RemoteDataSourceError.NetworkError
-        else -> RemoteDataSourceError.UnknownError
+        is IOException -> RemoteDataSourceError.NetworkError(this)
+        is JSONException -> RemoteDataSourceError.ParseError(this)
+        else -> RemoteDataSourceError.UnknownError(this)
     }
 }
 
 fun <T> Response<T>.handleServerError() : RemoteDataSourceError {
-    val message = this.extractMessage()
     return when(this.code()){
-        401 -> RemoteDataSourceError.Unauthorized(message)
-        404 -> RemoteDataSourceError.NotFound(message)
-        else -> RemoteDataSourceError.UnknownError
-    }
-}
-
-fun <T> Response<T>.extractMessage() : String {
-    return try {
-        JSONObject(this.errorBody()?.string()!!).getString("message")
-    } catch (e:Exception){
-        this.errorBody()?.string() ?: ""
+        401 -> RemoteDataSourceError.Unauthorized(Throwable("Unauthorized code error ${this.code()}"))
+        404 -> RemoteDataSourceError.NotFound(Throwable("RemoteDataSourceError code error ${this.code()}"))
+        else -> RemoteDataSourceError.UnknownError(Throwable("UnknownError code error ${this.code()}"))
     }
 }
 
