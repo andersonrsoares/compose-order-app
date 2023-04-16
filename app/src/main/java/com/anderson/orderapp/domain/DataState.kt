@@ -7,7 +7,7 @@ import com.anderson.orderapp.data.remote.result.RemoteDataSourceError
 sealed class DataState<T> {
     class Success<T>(val data: T): DataState<T>()
     class Loading<T>: DataState<T>()
-    class Failure<T>(val reason: FailureReason): DataState<T>()
+    class Failure<T>(val failureReason: FailureReason): DataState<T>()
 }
 
 

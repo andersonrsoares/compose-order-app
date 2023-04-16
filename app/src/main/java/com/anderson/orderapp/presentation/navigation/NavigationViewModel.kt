@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-class NavigationViewModel constructor() : ViewModel() {
+class NavigationViewModel : ViewModel() {
 
     private val _navigation = MutableStateFlow<NavigationState>(NavigationState.EmptyNavigationState)
     val navigation = _navigation.asSharedFlow()

@@ -4,4 +4,10 @@
     <string name="error_network_issue">Please check your internet connection and try again.</string>
     <string name="error_unknown">An unknown error happened, please try again.</string>
     <string name="error_server">An server error happened, please try again.</string>
+    <string name="arrow_back_content_description">Back button.</string>
+    <string name="pizza_menu_title">Delivery pizza menu</string>
+    <string name="pizza_menu_disclaimer">Select the pizza to order you can select max two flavors</string>
+    <string name="pizza_max_flavor">You have selected max flavors available</string>
+    <string name="pizza_not_selected_flavor">You must select at least one flavor</string>
+    <string name="pizza_menu_checkout">Go to checkout</string>
 </resources>
