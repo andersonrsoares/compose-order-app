@@ -2,7 +2,6 @@
 package com.anderson.orderapp.presentation.pizza_menu
 
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,34 +23,37 @@ import com.anderson.orderapp.presentation.components.ShowMessage
 import com.anderson.orderapp.presentation.getString
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.koinViewModel
 
 
 
 @Composable
 fun OrderPizzaScreen(
-    navigationViewModel: NavigationViewModel = koinViewModel(key = "navigate"),
-    pizzaMenuViewModel: PizzaMenuViewModel = koinViewModel()
+    pizzaMenuViewModel: PizzaMenuViewModel = koinViewModel(),
+    onGoToCheckout: (List<Pizza>) -> Unit
 ) {
 
     val context = LocalContext.current
     val pizzaMenuState by pizzaMenuViewModel.pizzaMenuState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(key1 = Unit){
-        pizzaMenuViewModel.toastMessage.collectLatest {
+    LaunchedEffect(key1 = pizzaMenuViewModel.goToCheckout){
+        pizzaMenuViewModel.goToCheckout.onEach {
+            if(!it.isNullOrEmpty()) {
+                onGoToCheckout(it.toList())
+            }
+        }.collect()
+    }
+
+    LaunchedEffect(key1 = pizzaMenuViewModel.toastMessage){
+        pizzaMenuViewModel.toastMessage.onEach {
             if(it != null) {
                 snackbarHostState.showSnackbar(
                     it.getString(context)
                 )
             }
-        }
-
-        pizzaMenuViewModel.goToCheckout.collectLatest {
-            if(it.isNotEmpty()) {
-                navigationViewModel.push(NavigationScreen.OrderPizzaConfirmation, NavigationScreen.OrderPizzaConfirmation.args(it))
-            }
-        }
+        }.collect()
     }
 
 
@@ -61,7 +63,6 @@ fun OrderPizzaScreen(
                 title = {
                     Text(text = stringResource(id = R.string.pizza_menu_title))
                 },
-                Modifier.background(color = MaterialTheme.colorScheme.secondary)
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },

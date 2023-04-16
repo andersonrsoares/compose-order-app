@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun ShowMessage(error:String) {
+internal fun ShowMessage(message:String) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -20,7 +20,7 @@ internal fun ShowMessage(error:String) {
             modifier = Modifier.align(Alignment.Center),
             textAlign = TextAlign.Center,
             fontSize = 30.sp,
-            text = error)
+            text = message)
     }
 }
 

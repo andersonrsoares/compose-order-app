@@ -1,3 +1,4 @@
+
 package com.anderson.orderapp.presentation
 
 import androidx.compose.runtime.Composable
@@ -8,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.anderson.orderapp.domain.model.Pizza
+import com.anderson.orderapp.presentation.checkout.CheckoutScreen
 import com.anderson.orderapp.presentation.navigation.NavigationKeys
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
 import com.anderson.orderapp.presentation.navigation.NavigationState
@@ -25,19 +28,21 @@ fun OrderAppScreen() {
 
     NavHost(navController, startDestination = NavigationScreen.PizzaMenu.route) {
         composable(route = NavigationScreen.PizzaMenu.route) {
-            OrderPizzaScreen()
+            OrderPizzaScreen(navigationViewModel = navigationViewModel)
         }
 
         composable(
-            route =  "${NavigationScreen.OrderPizzaConfirmation.route}/{${NavigationKeys.Arg.ORDER_PIZZA_CONFIRMATION}}" ,
-            arguments = listOf(navArgument(NavigationKeys.Arg.ORDER_PIZZA_CONFIRMATION) {
+            route =  "${NavigationScreen.CheckoutOrder.route}/{${NavigationKeys.Arg.CHECKOUT_ORDER}}" ,
+            arguments = listOf(navArgument(NavigationKeys.Arg.CHECKOUT_ORDER) {
                 type = NavType.StringType
                 defaultValue = ""
                 nullable = true
             })
         ) { entry ->
-//            WeatherDetailDestination(navController,
-//                entry.arguments?.getString(NavigationKeys.Arg.CITY_NAME))
+            CheckoutScreen(
+                navigationViewModel = navigationViewModel,
+                args = entry.arguments?.getSerializable(NavigationKeys.Arg.CHECKOUT_ORDER) as List<Pizza>
+            )
         }
     }
 }

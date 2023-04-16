@@ -10,4 +10,7 @@
     <string name="pizza_max_flavor">You have selected max flavors available</string>
     <string name="pizza_not_selected_flavor">You must select at least one flavor</string>
     <string name="pizza_menu_checkout">Go to checkout</string>
+    <string name="pizza_title_checkout">Confirm your order</string>
+    <string name="pizza_checkout_confirm">Confirm your order</string>
+    <string name="order_confirmed_with_success">Your order was successful confined</string>
 </resources>

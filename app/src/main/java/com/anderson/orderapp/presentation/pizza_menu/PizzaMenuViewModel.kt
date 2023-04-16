@@ -17,10 +17,10 @@ class PizzaMenuViewModel(
     private val _selectedPizzas = MutableStateFlow<MutableList<Pizza>>(arrayListOf())
 
     private val _toastMessage = MutableStateFlow<UiText?>(null)
-    val toastMessage = _toastMessage.asSharedFlow()
+    val toastMessage = _toastMessage.asStateFlow()
 
-    private val _goToCheckout = MutableStateFlow<MutableList<Pizza>>(arrayListOf())
-    val goToCheckout = _goToCheckout.asSharedFlow()
+    private val _goToCheckout = MutableStateFlow<MutableList<Pizza>?>(null)
+    val goToCheckout = _goToCheckout.asStateFlow()
 
 
     val pizzaMenuState =  combine(
@@ -73,6 +73,7 @@ class PizzaMenuViewModel(
             _toastMessage.tryEmit(UiText.ResourceString(R.string.pizza_not_selected_flavor))
             return
         }
+        _goToCheckout.tryEmit(arrayListOf())
         _goToCheckout.tryEmit(_selectedPizzas.value)
     }
 }
@@ -83,6 +84,5 @@ data class UiStatePizzaMenu(
     val isLoading:Boolean = true,
     val emptyMessage: UiText = UiText.ResourceString(R.string.empty_pizzas_list),
     val errorMessage: UiText? = null,
-    val selectedMaxFlavors: UiText = UiText.ResourceString(R.string.empty_pizzas_list),
-    val checkout: List<Pizza> = arrayListOf()
+    val selectedMaxFlavors: UiText = UiText.ResourceString(R.string.empty_pizzas_list)
 )
