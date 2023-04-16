@@ -10,7 +10,6 @@ class OrderLocalDataSourceImpl(): OrderLocalDataSource {
     companion object {
         @JvmStatic
         private val cachedData = hashMapOf<UUID, List<Pizza>>()
-        get() =
     }
 
     override suspend fun save(pizzas: List<Pizza>): UUID {

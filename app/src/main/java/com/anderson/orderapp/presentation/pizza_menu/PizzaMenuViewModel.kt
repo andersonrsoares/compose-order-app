@@ -5,23 +5,27 @@ import androidx.lifecycle.viewModelScope
 import com.anderson.orderapp.R
 import com.anderson.orderapp.domain.DataState
 import com.anderson.orderapp.domain.model.Pizza
+import com.anderson.orderapp.domain.repository.OrderRepository
 import com.anderson.orderapp.domain.repository.PizzasRepository
 import com.anderson.orderapp.presentation.UiText
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 
 class PizzaMenuViewModel(
-    pizzasRepository: PizzasRepository
+    pizzasRepository: PizzasRepository,
+    private val orderRepository: OrderRepository
 ): ViewModel()  {
 
     private val _selectedPizzas = MutableStateFlow<MutableList<Pizza>>(arrayListOf())
 
-    private val _toastMessage = MutableStateFlow<UiText?>(null)
-    val toastMessage = _toastMessage.asStateFlow()
+    private val _toastMessage = MutableSharedFlow<UiText>(extraBufferCapacity = 1)
+    val toastMessage = _toastMessage.asSharedFlow()
 
-    private val _goToCheckout = MutableStateFlow<MutableList<Pizza>?>(null)
-    val goToCheckout = _goToCheckout.asStateFlow()
-
+    private val _goToCheckout = MutableSharedFlow<UUID?>(extraBufferCapacity = 1)
+    val goToCheckout = _goToCheckout.asSharedFlow()
 
     val pizzaMenuState =  combine(
         pizzasRepository.fetchPizzas(),
@@ -53,7 +57,9 @@ class PizzaMenuViewModel(
         }
 
         if(_selectedPizzas.value.size >= 2) {
-            _toastMessage.tryEmit(UiText.ResourceString(R.string.pizza_max_flavor))
+            viewModelScope.launch {
+                _toastMessage.tryEmit(UiText.ResourceString(R.string.pizza_max_flavor))
+            }
             return
         }
 
@@ -70,11 +76,18 @@ class PizzaMenuViewModel(
 
     fun checkout(){
         if(_selectedPizzas.value.isEmpty()) {
-            _toastMessage.tryEmit(UiText.ResourceString(R.string.pizza_not_selected_flavor))
+            viewModelScope.launch {
+                _toastMessage.emit(UiText.ResourceString(R.string.pizza_not_selected_flavor))
+            }
             return
         }
-        _goToCheckout.tryEmit(arrayListOf())
-        _goToCheckout.tryEmit(_selectedPizzas.value)
+        orderRepository
+            .save(pizzas = _selectedPizzas.value)
+            .onEach  {
+                viewModelScope.launch {
+                    _goToCheckout.emit(it)
+                }
+            }.launchIn(viewModelScope)
     }
 }
 

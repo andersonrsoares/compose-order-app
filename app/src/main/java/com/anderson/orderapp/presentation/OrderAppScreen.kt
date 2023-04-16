@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.anderson.orderapp.domain.model.Pizza
 import com.anderson.orderapp.presentation.checkout.CheckoutScreen
 import com.anderson.orderapp.presentation.navigation.NavigationKeys
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
@@ -28,12 +27,14 @@ fun OrderAppScreen() {
 
     NavHost(navController, startDestination = NavigationScreen.PizzaMenu.route) {
         composable(route = NavigationScreen.PizzaMenu.route) {
-            OrderPizzaScreen(navigationViewModel = navigationViewModel)
+            OrderPizzaScreen(
+                navigationViewModel = navigationViewModel
+            )
         }
 
         composable(
-            route =  "${NavigationScreen.CheckoutOrder.route}/{${NavigationKeys.Arg.CHECKOUT_ORDER}}" ,
-            arguments = listOf(navArgument(NavigationKeys.Arg.CHECKOUT_ORDER) {
+            route =  "${NavigationScreen.CheckoutOrder.route}/{${NavigationKeys.Arg.CHECKOUT_ORDER_ID}}" ,
+            arguments = listOf(navArgument(NavigationKeys.Arg.CHECKOUT_ORDER_ID) {
                 type = NavType.StringType
                 defaultValue = ""
                 nullable = true
@@ -41,7 +42,7 @@ fun OrderAppScreen() {
         ) { entry ->
             CheckoutScreen(
                 navigationViewModel = navigationViewModel,
-                args = entry.arguments?.getSerializable(NavigationKeys.Arg.CHECKOUT_ORDER) as List<Pizza>
+                orderId = entry.arguments?.getString(NavigationKeys.Arg.CHECKOUT_ORDER_ID)!!
             )
         }
     }

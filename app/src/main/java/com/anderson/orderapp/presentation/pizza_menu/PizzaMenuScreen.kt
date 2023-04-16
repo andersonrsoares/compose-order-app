@@ -23,8 +23,7 @@ import com.anderson.orderapp.presentation.components.ShowMessage
 import com.anderson.orderapp.presentation.getString
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -32,28 +31,24 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun OrderPizzaScreen(
     pizzaMenuViewModel: PizzaMenuViewModel = koinViewModel(),
-    onGoToCheckout: (List<Pizza>) -> Unit
+    navigationViewModel: NavigationViewModel = koinViewModel(),
 ) {
 
     val context = LocalContext.current
     val pizzaMenuState by pizzaMenuViewModel.pizzaMenuState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = pizzaMenuViewModel.goToCheckout){
-        pizzaMenuViewModel.goToCheckout.onEach {
-            if(!it.isNullOrEmpty()) {
-                onGoToCheckout(it.toList())
-            }
-        }.collect()
+        pizzaMenuViewModel.goToCheckout.filterNotNull().collectLatest {
+            navigationViewModel.push(NavigationScreen.CheckoutOrder, args = listOf(it.toString()))
+        }
     }
 
     LaunchedEffect(key1 = pizzaMenuViewModel.toastMessage){
-        pizzaMenuViewModel.toastMessage.onEach {
-            if(it != null) {
-                snackbarHostState.showSnackbar(
-                    it.getString(context)
-                )
-            }
-        }.collect()
+        pizzaMenuViewModel.toastMessage.filterNotNull().collectLatest {
+            snackbarHostState.showSnackbar(
+                it.getString(context)
+            )
+        }
     }
 
 

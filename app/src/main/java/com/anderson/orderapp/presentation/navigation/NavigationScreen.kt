@@ -5,13 +5,13 @@ import com.anderson.orderapp.domain.model.Pizza
 sealed class NavigationScreen(val route: String) {
     object PizzaMenu : NavigationScreen("PIZZA_MENU")
     object CheckoutOrder : NavigationScreen("CHECKOUT_ORDER") {
-        fun args(param: List<Pizza>?) = param?.let { listOf<Any>(NavigationKeys.Arg.CHECKOUT_ORDER to param) } ?: listOf()
+        fun args(param: List<Pizza>?) = param?.let { listOf<Any>(NavigationKeys.Arg.CHECKOUT_ORDER_ID to param) } ?: listOf()
     }
     override fun toString(): String = route
 }
 internal object NavigationKeys {
     object Arg {
-        const val CHECKOUT_ORDER = "CHECKOUT_ORDER"
+        const val CHECKOUT_ORDER_ID = "CHECKOUT_ORDER"
     }
 }
 

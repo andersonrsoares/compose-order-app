@@ -2,8 +2,6 @@
 package com.anderson.orderapp.presentation.checkout
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,17 +21,21 @@ import com.anderson.orderapp.domain.model.Pizza
 import com.anderson.orderapp.presentation.components.ShowMessage
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
 import org.koin.androidx.compose.koinViewModel
-
+import java.util.UUID
 
 
 @Composable
 fun CheckoutScreen(
-    navigationViewModel: NavigationViewModel = koinViewModel(key = "navigate"),
+    navigationViewModel: NavigationViewModel = koinViewModel(),
     checkoutViewModel: CheckoutViewModel = koinViewModel(),
-    args: List<Pizza>
+    orderId: String
 ) {
 
     val pizzaMenuState by checkoutViewModel.checkoutState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = orderId) {
+        checkoutViewModel.setOrderId(orderId)
+    }
 
     Scaffold(
         topBar = {
@@ -74,12 +76,28 @@ fun CheckoutBody(
     Box(
         Modifier
             .fillMaxSize()
-            .padding(start = 20.dp, end = 20.dp,
+            .padding(
+                start = 20.dp, end = 20.dp,
                 top = paddingValues.calculateTopPadding(),
-                bottom = paddingValues.calculateBottomPadding())) {
+                bottom = paddingValues.calculateBottomPadding()
+            )) {
                 when {
                     checkoutState.confirmedOrder ->  {
-                        ShowMessage(message = stringResource(id = R.string.order_confirmed_with_success))
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+
+                            ShowMessage(message = stringResource(id = R.string.order_confirmed_with_success))
+                            Spacer(modifier = Modifier.height(30.dp))
+                            Button(
+                                onClick = {
+                                    onConfirm()
+                                }
+                            ) {
+                                Text(text = stringResource(id = R.string.pizza_checkout_close))
+                            }
+                        }
                     }
                     else -> {
                         Column(
@@ -91,17 +109,20 @@ fun CheckoutBody(
                                 .padding(12.dp)
                                 .fillMaxSize()
                             ) {
-                                Row {
-                                    checkoutState.selectedPizzas.forEach {item->
-                                        Text(
-                                            fontSize = 15.sp,
-                                            color = Color.Black,
-                                            text = item.name)
-                                        Text(
-                                            fontSize = 15.sp,
-                                            color = Color.Black,
-                                            text = item.price.toString())
+                                Column {
+                                    Row() {
+                                        checkoutState.selectedPizzas.forEach {item->
+                                            Text(
+                                                fontSize = 15.sp,
+                                                color = Color.Black,
+                                                text = item.name)
+                                            Text(
+                                                fontSize = 15.sp,
+                                                color = Color.Black,
+                                                text = item.price.toString())
+                                        }
                                     }
+
                                     Spacer(modifier = Modifier.height(20.dp))
                                     Text(
                                         fontSize = 30.sp,
@@ -121,42 +142,4 @@ fun CheckoutBody(
                     }
                 }
             }
-}
-
-
-@Composable
-fun PizzaList(
-    pizzaItems: List<Pizza>,
-    selectedItems: List<Pizza>,
-    onSelectPizza: ((Pizza) -> Unit),
-) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(pizzaItems) { item ->
-            Box {
-                Box(modifier = Modifier
-                    .padding(12.dp)
-                    .fillMaxSize()
-                ) {
-                    Row {
-                        Checkbox(
-                            checked = selectedItems.contains(item),
-                            onCheckedChange = {
-                                onSelectPizza(item)
-                            }
-                        )
-                        Text(
-                            fontSize = 15.sp,
-                            color = Color.Black,
-                            text = item.name)
-                        Text(
-                            fontSize = 15.sp,
-                            color = Color.Black,
-                            text = item.price.toString())
-                    }
-                }
-            }
-        }
-    }
 }

@@ -13,4 +13,5 @@
     <string name="pizza_title_checkout">Confirm your order</string>
     <string name="pizza_checkout_confirm">Confirm your order</string>
     <string name="order_confirmed_with_success">Your order was successful confined</string>
+    <string name="pizza_checkout_close">Close</string>
 </resources>
