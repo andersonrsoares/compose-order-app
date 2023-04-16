@@ -18,7 +18,7 @@ class CheckoutViewModel(
 ): ViewModel()  {
 
     private val _orderId = MutableStateFlow<UUID?>(null)
-    private val _confirmedOrder = MutableStateFlow<Boolean>(false)
+    private val _confirmedOrder = MutableStateFlow(false)
 
     val checkoutState =  combine(
         _orderId

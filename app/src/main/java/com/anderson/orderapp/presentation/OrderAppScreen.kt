@@ -59,6 +59,12 @@ fun Navigation(
             when (route) {
                 is NavigationState.PushNavigationState -> navController.navigate(route.destination)
                 is NavigationState.PopNavigationState -> navController.popBackStack()
+                is NavigationState.CleanNavigationState -> {
+                    navController.backQueue.clear()
+                    navController.navigate(
+                        route = route.destination
+                    )
+                }
                 else -> { print("do nothing") }
             }
         }.collect()

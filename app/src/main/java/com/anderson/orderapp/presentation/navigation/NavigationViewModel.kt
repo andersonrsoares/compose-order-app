@@ -21,6 +21,12 @@ class NavigationViewModel : ViewModel() {
         return "${route}${args?.let {  "/" + it.joinToString("/") {item-> "$item" }} ?: ""}"
     }
 
+    fun clean(route: NavigationScreen) {
+        viewModelScope.launch {
+            _navigation.emit(NavigationState.CleanNavigationState(extractRoute(route)))
+        }
+    }
+
     fun pop() {
         viewModelScope.launch {
             _navigation.emit(NavigationState.PopNavigationState)

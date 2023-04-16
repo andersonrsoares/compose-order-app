@@ -38,13 +38,13 @@ fun OrderPizzaScreen(
     val pizzaMenuState by pizzaMenuViewModel.pizzaMenuState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = pizzaMenuViewModel.goToCheckout){
-        pizzaMenuViewModel.goToCheckout.filterNotNull().collectLatest {
+        pizzaMenuViewModel.goToCheckout.collectLatest {
             navigationViewModel.push(NavigationScreen.CheckoutOrder, args = listOf(it.toString()))
         }
     }
 
     LaunchedEffect(key1 = pizzaMenuViewModel.toastMessage){
-        pizzaMenuViewModel.toastMessage.filterNotNull().collectLatest {
+        pizzaMenuViewModel.toastMessage.collectLatest {
             snackbarHostState.showSnackbar(
                 it.getString(context)
             )
@@ -82,7 +82,7 @@ fun OrderPizzaBody(
     Box(
         Modifier
             .fillMaxSize()
-            .padding(start = 20.dp, end = 20.dp, top = 5.dp, bottom = 5.dp)) {
+            .padding(start = 20.dp, end = 20.dp, top = 50.dp, bottom = 5.dp)) {
                 when {
                     orderPizzaState.isLoading -> LoadingBar()
                     orderPizzaState.pizzas.isEmpty() -> ShowMessage(orderPizzaState.emptyMessage.asString())
@@ -137,11 +137,7 @@ fun PizzaList(
                         Text(
                             fontSize = 15.sp,
                             color = Color.Black,
-                            text = item.name)
-                        Text(
-                            fontSize = 15.sp,
-                            color = Color.Black,
-                            text = item.price.toString())
+                            text = "${item.name}  ${item.price}")
                     }
                 }
             }

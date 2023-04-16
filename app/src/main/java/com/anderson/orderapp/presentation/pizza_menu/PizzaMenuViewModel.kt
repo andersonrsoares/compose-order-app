@@ -24,7 +24,7 @@ class PizzaMenuViewModel(
     private val _toastMessage = MutableSharedFlow<UiText>(extraBufferCapacity = 1)
     val toastMessage = _toastMessage.asSharedFlow()
 
-    private val _goToCheckout = MutableSharedFlow<UUID?>(extraBufferCapacity = 1)
+    private val _goToCheckout = MutableSharedFlow<UUID>(extraBufferCapacity = 1)
     val goToCheckout = _goToCheckout.asSharedFlow()
 
     val pizzaMenuState =  combine(
