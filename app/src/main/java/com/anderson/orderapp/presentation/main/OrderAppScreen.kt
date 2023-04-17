@@ -1,5 +1,5 @@
 
-package com.anderson.orderapp.presentation
+package com.anderson.orderapp.presentation.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

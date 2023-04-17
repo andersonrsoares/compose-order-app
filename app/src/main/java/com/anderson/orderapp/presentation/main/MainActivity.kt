@@ -1,4 +1,4 @@
-package com.anderson.orderapp.presentation
+package com.anderson.orderapp.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -8,7 +8,7 @@ import com.anderson.orderapp.domain.FailureReason
 import com.anderson.orderapp.domain.model.Pizza
 import com.anderson.orderapp.domain.repository.OrderRepository
 import com.anderson.orderapp.domain.repository.PizzasRepository
-import com.anderson.orderapp.presentation.UiText
+import com.anderson.orderapp.presentation.components.UiText
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*

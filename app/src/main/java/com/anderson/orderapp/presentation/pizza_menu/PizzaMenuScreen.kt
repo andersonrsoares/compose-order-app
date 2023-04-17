@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anderson.orderapp.R
 import com.anderson.orderapp.domain.model.Pizza
-import com.anderson.orderapp.presentation.asMoney
-import com.anderson.orderapp.presentation.asString
+import com.anderson.orderapp.presentation.components.asMoney
 import com.anderson.orderapp.presentation.components.LoadingBar
 import com.anderson.orderapp.presentation.components.ShowMessage
-import com.anderson.orderapp.presentation.getString
+import com.anderson.orderapp.presentation.components.asString
+import com.anderson.orderapp.presentation.components.getString
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
 import kotlinx.coroutines.flow.*
@@ -64,7 +64,7 @@ fun OrderPizzaScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
-        OrderPizzaBody(
+        OrderPizzaScreen(
             orderPizzaState = pizzaMenuState,
             onSelectPizza = {
                 pizzaMenuViewModel.selectPizza(it)
@@ -76,7 +76,7 @@ fun OrderPizzaScreen(
     }
 }
 @Composable
-fun OrderPizzaBody(
+fun OrderPizzaScreen(
     orderPizzaState: UiStatePizzaMenu,
     onSelectPizza: ((Pizza) -> Unit),
     onCheckout: (() -> Unit),

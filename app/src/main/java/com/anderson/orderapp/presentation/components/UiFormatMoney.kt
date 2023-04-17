@@ -1,7 +1,6 @@
-package com.anderson.orderapp.presentation
+package com.anderson.orderapp.presentation.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import java.text.NumberFormat
 
 @Composable

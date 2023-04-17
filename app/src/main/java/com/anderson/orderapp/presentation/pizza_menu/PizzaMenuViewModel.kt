@@ -2,14 +2,12 @@ package com.anderson.orderapp.presentation.pizza_menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.anderson.orderapp.DispatcherProvider
 import com.anderson.orderapp.R
 import com.anderson.orderapp.domain.DataState
 import com.anderson.orderapp.domain.model.Pizza
 import com.anderson.orderapp.domain.repository.OrderRepository
 import com.anderson.orderapp.domain.repository.PizzasRepository
-import com.anderson.orderapp.presentation.UiText
-import kotlinx.coroutines.channels.BufferOverflow
+import com.anderson.orderapp.presentation.components.UiText
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.UUID

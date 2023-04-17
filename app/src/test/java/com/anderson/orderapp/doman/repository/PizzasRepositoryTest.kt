@@ -1,12 +1,11 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 package com.anderson.orderapp.doman.repository
 
-import br.com.anderson.composefirstlook.ApiUtil
 import com.anderson.orderapp.DispatcherProvider
 import com.anderson.orderapp.data.remote.datasource.PizzasRemoteDataSource
+import com.anderson.orderapp.data.remote.dto.PizzaDto
 import com.anderson.orderapp.data.remote.result.RemoteDataSourceResult
 import com.anderson.orderapp.domain.DataState
-import com.anderson.orderapp.domain.model.PizzaList
 import com.anderson.orderapp.domain.repository.PizzaRepositoryImpl
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -41,14 +40,8 @@ class PizzasRepositoryTest {
 
     @Test
     fun `test success fetch pizzas`() = testScope.runTest {
-
-        val pizzasContent = ApiUtil.loadfile(
-            "pizzas_success.json",
-            PizzaList::class.java
-        )
-
         coEvery { remoteDataSource.fetchPizzas() } returns RemoteDataSourceResult.Success(
-            pizzasContent
+            listOf(PizzaDto("Mozzarella", 10.0))
         )
 
         val pizzasRepository = PizzaRepositoryImpl(

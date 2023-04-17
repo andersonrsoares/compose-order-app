@@ -3,10 +3,7 @@ package com.anderson.orderapp.presentation.checkout
 
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -20,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anderson.orderapp.R
-import com.anderson.orderapp.presentation.asMoney
+import com.anderson.orderapp.presentation.components.asMoney
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
 import org.koin.androidx.compose.koinViewModel

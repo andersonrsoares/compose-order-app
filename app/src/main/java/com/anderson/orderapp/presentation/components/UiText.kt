@@ -1,4 +1,4 @@
-package com.anderson.orderapp.presentation
+package com.anderson.orderapp.presentation.components
 
 import android.content.Context
 import androidx.annotation.StringRes
