@@ -1,6 +1,8 @@
 package com.anderson.orderapp.data.remote.datasource
 
 import br.com.anderson.composefirstlook.ApiUtil
+import br.com.anderson.composefirstlook.ApiUtil.mockResponseError
+import br.com.anderson.composefirstlook.ApiUtil.mockResponseSuccess
 import com.anderson.orderapp.data.remote.dto.PizzaDto
 import com.anderson.orderapp.data.remote.network.OrderService
 import com.anderson.orderapp.data.remote.result.RemoteDataSourceError
@@ -10,6 +12,9 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
@@ -17,18 +22,23 @@ import retrofit2.Response
 
 
 class PizzasRemoteDataSourceTest {
-    private val service = mockk<OrderService>()
+    private val mockWebServer = MockWebServer()
+
+    private lateinit var service: OrderService
+    @Before
+    fun setUp() {
+        service = ApiUtil.getApi(mockWebServer, OrderService::class.java)
+    }
+
+    @After
+    fun shutdown() {
+        mockWebServer.shutdown()
+    }
+
 
     @Test
     fun `test success datasource response`() = runBlocking {
-        val response = Response.success<List<PizzaDto>>(
-            ApiUtil.loadfile<List<PizzaDto>>(
-                "pizzas_success.json",
-                PizzaList::class.java
-            )
-        )
-
-        coEvery { service.pizzas() } returns response
+        mockWebServer.mockResponseSuccess("pizzas_success.json")
 
         val datasource = PizzasRemoteDataSourceImpl(service)
 
@@ -42,8 +52,8 @@ class PizzasRemoteDataSourceTest {
 
     @Test
     fun `test error datasource response`() = runBlocking {
-        val response = Response.error<List<PizzaDto>>(500, "<>".toResponseBody())
-        coEvery { service.pizzas() } throws  HttpException(response)
+        mockWebServer.mockResponseError("", statusCode = 500)
+
         val datasource = PizzasRemoteDataSourceImpl(service)
 
         val dataSourceResponse = datasource.fetchPizzas()

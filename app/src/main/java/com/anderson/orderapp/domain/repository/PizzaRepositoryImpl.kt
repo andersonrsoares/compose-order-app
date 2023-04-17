@@ -19,21 +19,21 @@ class PizzaRepositoryImpl(
     override fun fetchPizzas(): Flow<DataState<List<Pizza>>> {
         return flow {
             emit(DataState.Loading())
-
-            emit(when(val result = pizzasRemoteDataSource.fetchPizzas()) {
+            when(val result = pizzasRemoteDataSource.fetchPizzas()) {
                 is RemoteDataSourceResult.Success -> {
-                    DataState.Success(result.data.map { it.toPizza() })
+                   emit(DataState.Success(result.data.map { it.toPizza() }))
                 }
 
                 is RemoteDataSourceResult.Error -> {
                     result.error.exception?.printStackTrace()
-                    DataState.Failure(when(result.error) {
+                    val error = when(result.error) {
                         is RemoteDataSourceError.ServerError -> FailureReason.ServerError(result.error)
                         is RemoteDataSourceError.NetworkError,
                         is RemoteDataSourceError.ParseError -> FailureReason.NetworkIssue
-                    })
+                    }
+                    emit(DataState.Failure(error))
                 }
-            })
+            }
         }.flowOn(dispatcherProvider.io)
     }
 }

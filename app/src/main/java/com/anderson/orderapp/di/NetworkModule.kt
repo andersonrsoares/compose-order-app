@@ -8,6 +8,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 private const val  BASE_URL = "https://static.mozio.com/mobile/"
 
@@ -32,6 +34,8 @@ private fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
 private fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor
 ): OkHttpClient {
     return OkHttpClient.Builder()
+        .connectTimeout(Duration.ofSeconds(10))
+        .connectTimeout(Duration.ofSeconds(10))
         .addInterceptor(loggingInterceptor)
         .build()
 }

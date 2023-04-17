@@ -86,8 +86,8 @@ fun OrderPizzaBody(
             .padding(start = 20.dp, end = 20.dp, top = 50.dp, bottom = 5.dp)) {
                 when {
                     orderPizzaState.isLoading -> LoadingBar()
-                    orderPizzaState.pizzas.isEmpty() -> ShowMessage(orderPizzaState.emptyMessage.asString())
                     orderPizzaState.errorMessage != null -> ShowMessage(orderPizzaState.errorMessage.asString())
+                    orderPizzaState.pizzas.isEmpty() -> ShowMessage(orderPizzaState.emptyMessage.asString())
                     else -> {
                         Column(
                             modifier = Modifier.fillMaxSize(),

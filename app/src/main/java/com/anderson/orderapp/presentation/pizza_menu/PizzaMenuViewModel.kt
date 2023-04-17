@@ -2,6 +2,7 @@ package com.anderson.orderapp.presentation.pizza_menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.anderson.orderapp.DispatcherProvider
 import com.anderson.orderapp.R
 import com.anderson.orderapp.domain.DataState
 import com.anderson.orderapp.domain.model.Pizza
@@ -16,7 +17,7 @@ import java.util.UUID
 
 class PizzaMenuViewModel(
     pizzasRepository: PizzasRepository,
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
 ): ViewModel()  {
 
     private val _selectedPizzas = MutableStateFlow<MutableList<Pizza>>(arrayListOf())
@@ -41,6 +42,7 @@ class PizzaMenuViewModel(
                 isLoading = true
             )
             is DataState.Failure -> UiStatePizzaMenu(
+                isLoading = false,
                 errorMessage = UiText.ResourceString(dataPizzas.failureReason.defaultResourceMessage())
             )
         }
@@ -97,5 +99,4 @@ data class UiStatePizzaMenu(
     val isLoading:Boolean = true,
     val emptyMessage: UiText = UiText.ResourceString(R.string.empty_pizzas_list),
     val errorMessage: UiText? = null,
-    val selectedMaxFlavors: UiText = UiText.ResourceString(R.string.empty_pizzas_list)
 )
