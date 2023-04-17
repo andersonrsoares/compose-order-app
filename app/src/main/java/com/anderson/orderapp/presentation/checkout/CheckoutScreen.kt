@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anderson.orderapp.R
+import com.anderson.orderapp.presentation.asMoney
 import com.anderson.orderapp.presentation.navigation.NavigationScreen
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -129,14 +130,14 @@ fun CheckoutBody(
                                     Text(
                                         fontSize = 15.sp,
                                         color = Color.Black,
-                                        text = "${item.name}  ${item.price}")
+                                        text = "${item.name}  ${item.price.asMoney()}")
                                 }
 
                                 Spacer(modifier = Modifier.height(20.dp))
                                 Text(
                                     fontSize = 30.sp,
                                     color = Color.Black,
-                                    text = checkoutState.totalValue.toString())
+                                    text = checkoutState.totalValue.asMoney())
                                 Spacer(modifier = Modifier.height(20.dp))
                                 Button(
                                     onClick = {

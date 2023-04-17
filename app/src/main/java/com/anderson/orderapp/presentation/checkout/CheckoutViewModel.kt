@@ -8,6 +8,7 @@ import com.anderson.orderapp.domain.model.Pizza
 import com.anderson.orderapp.domain.repository.OrderRepository
 import com.anderson.orderapp.domain.repository.PizzasRepository
 import com.anderson.orderapp.presentation.UiText
+import com.anderson.orderapp.presentation.asMoney
 import kotlinx.coroutines.flow.*
 import java.math.BigDecimal
 import java.util.UUID

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.anderson.orderapp.R
 import com.anderson.orderapp.domain.model.Pizza
+import com.anderson.orderapp.presentation.asMoney
 import com.anderson.orderapp.presentation.asString
 import com.anderson.orderapp.presentation.components.LoadingBar
 import com.anderson.orderapp.presentation.components.ShowMessage
@@ -127,7 +128,9 @@ fun PizzaList(
                     .padding(12.dp)
                     .fillMaxSize()
                 ) {
-                    Row {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Checkbox(
                             checked = selectedItems.contains(item),
                             onCheckedChange = {
@@ -137,7 +140,7 @@ fun PizzaList(
                         Text(
                             fontSize = 15.sp,
                             color = Color.Black,
-                            text = "${item.name}  ${item.price}")
+                            text = "${item.name}  ${item.price.asMoney()}")
                     }
                 }
             }

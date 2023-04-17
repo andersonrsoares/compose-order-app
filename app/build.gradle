@@ -45,6 +45,11 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+    }
 }
 
 dependencies {
@@ -84,5 +89,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+
+    testImplementation 'org.json:json:20180130'
+    testImplementation 'com.google.code.gson:gson:2.8.9'
+    testImplementation "androidx.test:core:1.5.0"
+    testImplementation "androidx.test:core-ktx:1.5.0"
+
+    testImplementation "io.mockk:mockk:1.12.0"
+    testImplementation "io.mockk:mockk-agent-jvm:1.12.0"
 }
