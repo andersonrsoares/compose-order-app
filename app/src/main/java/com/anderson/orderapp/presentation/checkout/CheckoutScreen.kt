@@ -50,7 +50,12 @@ fun CheckoutScreen(
                 TopAppBar(
                     navigationIcon = {
                         IconButton(onClick = {
-                            navigationViewModel.clean(NavigationScreen.PizzaMenu)
+                            if (pizzaMenuState.confirmedOrder) {
+                                navigationViewModel.clean(NavigationScreen.PizzaMenu)
+                            } else {
+                                navigationViewModel.pop()
+                            }
+
                         }) {
                             Icon(
                                 Icons.Default.ArrowBack,
