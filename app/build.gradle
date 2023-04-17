@@ -50,6 +50,14 @@ android {
         androidTest.java.srcDirs += "src/test-common/java"
         test.java.srcDirs += "src/test-common/java"
     }
+
+    testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
 }
 
 dependencies {
@@ -90,8 +98,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
-    androidTestImplementation "io.mockk:mockk:1.12.0"
-    androidTestImplementation "io.mockk:mockk-agent-jvm:1.12.0"
+    androidTestImplementation "io.mockk:mockk-android:1.12.0"
+    androidTestImplementation('com.squareup.okhttp3:mockwebserver:4.10.0')
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"

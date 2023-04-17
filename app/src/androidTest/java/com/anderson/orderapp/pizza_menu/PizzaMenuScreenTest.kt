@@ -2,14 +2,10 @@ package com.anderson.orderapp.pizza_menu
 
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import com.anderson.orderapp.data.remote.network.OrderService
 import com.anderson.orderapp.domain.DataState
 import com.anderson.orderapp.domain.model.Pizza
 import com.anderson.orderapp.domain.repository.OrderRepository
 import com.anderson.orderapp.domain.repository.PizzasRepository
-import com.anderson.orderapp.presentation.checkout.CheckoutViewModel
-import com.anderson.orderapp.presentation.main.OrderAppScreen
 import com.anderson.orderapp.presentation.navigation.NavigationViewModel
 import com.anderson.orderapp.presentation.pizza_menu.OrderPizzaScreen
 import com.anderson.orderapp.presentation.pizza_menu.PizzaMenuViewModel
@@ -23,8 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
 import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
@@ -37,21 +31,20 @@ class PizzaMenuScreenTest {
     private val pizzasRepository =  mockk<PizzasRepository>()
     private val orderRepository =  mockk<OrderRepository>()
     private val viewmodelModule = module {
-        viewModel { PizzaMenuViewModel(
-            pizzasRepository, orderRepository
-        ) }
+        viewModel {
+            PizzaMenuViewModel(pizzasRepository, orderRepository)
+            NavigationViewModel()
+        }
     }
 
     @Before
     fun setUp() {
-       startKoin {
-           modules(listOf((viewmodelModule)))
-       }
+       loadKoinModules(listOf((viewmodelModule)))
     }
 
     @After
     fun shutdown() {
-       stopKoin()
+        unloadKoinModules(listOf((viewmodelModule)))
     }
 
     @Test
@@ -65,9 +58,7 @@ class PizzaMenuScreenTest {
         // Start the app
         composeTestRule.setContent {
             OrderappTheme {
-                OrderPizzaScreen(
-
-                )
+                OrderPizzaScreen()
             }
         }
 
