@@ -1,25 +1,15 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
 package com.anderson.orderapp.doman.repository
 
-import br.com.anderson.composefirstlook.ApiUtil
-import com.anderson.orderapp.DispatcherProvider
+
 import com.anderson.orderapp.data.local.datasource.OrderLocalDataSource
-import com.anderson.orderapp.data.remote.datasource.PizzasRemoteDataSource
-import com.anderson.orderapp.data.remote.datasource.PizzasRemoteDataSourceImpl
-import com.anderson.orderapp.data.remote.result.RemoteDataSourceResult
-import com.anderson.orderapp.domain.DataState
 import com.anderson.orderapp.domain.model.Pizza
-import com.anderson.orderapp.domain.model.PizzaList
 import com.anderson.orderapp.domain.repository.OrderRepositoryImpl
-import com.anderson.orderapp.domain.repository.PizzaRepositoryImpl
-import com.anderson.orderapp.domain.repository.PizzasRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -30,7 +20,7 @@ import java.util.UUID
 class OrderRepositoryTest {
 
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+
     private val testDispatcher = StandardTestDispatcher(TestCoroutineScheduler())
     private val testScope = TestScope(testDispatcher)
 
